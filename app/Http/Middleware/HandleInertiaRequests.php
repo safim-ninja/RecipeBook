@@ -5,7 +5,8 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
-
+use App\Models\Recipe;
+use App\Models\Category;
 class HandleInertiaRequests extends Middleware
 {
     /**
@@ -30,6 +31,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $popularTags = Recipe::getPopularTags();
+        $trendingRecipes = Recipe::trendingRecipes();
+        $popularCategories = Category::withCount('recipes')
+            ->orderBy('recipes_count', 'desc')
+            ->limit(5)
+            ->get();
         return [
             ...parent::share($request),
             'auth' => [
@@ -39,6 +46,10 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'popularTags' => $popularTags,
+            'trendingRecipes' => $trendingRecipes,
+            'popularCategories' => $popularCategories,
         ];
     }
 }
+

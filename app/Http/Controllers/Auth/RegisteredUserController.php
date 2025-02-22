@@ -32,20 +32,29 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:'.User::class,
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $avatar = time() . '_' . $request->file('avatar')->getClientOriginalName();
+            $request->file('avatar')->move(public_path('/avatars'), $avatar);
+        }
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'avatar' => $avatar,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('profile.show', absolute: false));
     }
 }

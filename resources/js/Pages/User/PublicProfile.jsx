@@ -17,7 +17,9 @@ export default function Profile({ recipes, reviews, user }) {
                                 <div className="flex items-center space-x-6">
                                     <img
                                         className="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700"
-                                        src={user.image ? `/avatars/${user.image}` : '/assets/avatar.png'}
+                                        // src={user.avatar ? `/avatars/${user.avatar}` : '/assets/avatar.png'}
+                                        src={user.avatar ? `/avatars/${user.avatar}` : '/avatars/default-avatar.svg'}
+
                                         alt={user.name}
                                     />
                                     <div>
@@ -36,7 +38,8 @@ export default function Profile({ recipes, reviews, user }) {
                                         <div key={recipe.id} className="bg-white dark:bg-slate-700 rounded-lg shadow-md overflow-hidden">
                                             {recipe.image && (
                                                 <img
-                                                    src={recipe.image}
+                                                    // src={recipe.image}
+                                                    src={recipe.image ? `/recipes/${recipe.image}` : '/images/default-recipe.jpg'}
                                                     alt={recipe.title}
                                                     className="w-full h-48 object-cover"
                                                 />

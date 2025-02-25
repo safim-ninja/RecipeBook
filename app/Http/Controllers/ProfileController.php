@@ -67,7 +67,7 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
         if ($request->hasFile('avatar')) {
-            if(Storage::exists($request->user()->avatar)) {
+            if($request->user()->avatar && Storage::exists($request->user()->avatar)) {
                 unlink(public_path('/avatars/' . $request->user()->avatar));
              }
             $avatar = time() . '_' . $request->file('avatar')->getClientOriginalName();

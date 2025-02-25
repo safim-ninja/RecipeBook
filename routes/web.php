@@ -10,7 +10,8 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\AdminController;
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return redirect()->route('profile.show');
+//    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

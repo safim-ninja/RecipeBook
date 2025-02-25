@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RecipeController as AdminRecipeController;
-use App\Http\Controllers\Admin\CategoryController;
+//use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AuthController;
 use Inertia\Inertia;
 Route::prefix('admin')->as('admin.')->group(function () {
@@ -16,9 +17,8 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
     // Protected Admin Routes
     Route::middleware('admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return Inertia::render('Admin/Dashboard');
-        })->name('dashboard');
+        Route::get('/', [AdminController::class, 'dashboard']);
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
         // User Management
         Route::get('/users/pending', [UserController::class, 'pending'])->name('users.pending');

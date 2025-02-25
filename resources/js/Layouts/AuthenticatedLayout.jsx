@@ -5,6 +5,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import logo from '../../../public/recipe-book.png';
 
 const highlightMatch = (text, query) => {
     if (!query) return text;
@@ -72,8 +73,9 @@ export default function AuthenticatedLayout({ header, children }) {
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center">
                             <Link href="/" className="flex items-center">
-                                <ApplicationLogo className="h-8 w-8 text-orange-500" />
-                                <span className="ml-2 text-xl font-bold text-orange-500">FoodieHub</span>
+                                {/*<ApplicationLogo className="h-8 w-8 text-orange-500" />*/}
+                                <img src={logo} alt="logo" className="h-8 w-8" />
+                                <span className="ml-2 text-xl font-bold text-orange-500">RecipeBook</span>
                             </Link>
                         </div>
 
@@ -106,8 +108,10 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 >
                                                     <div className='flex items-center'>
                                                         <img
-                                                            src={recipe.image}
+                                                            // src={recipe.image}
+                                                            src={recipe.image ? `/recipes/${recipe.image}` : '/images/default-recipe.jpg'}
                                                             alt={recipe.title}
+
                                                             className="h-12 w-12 rounded-lg object-cover"
                                                         />
                                                         <div className="ml-2 flex flex-col">
@@ -244,7 +248,8 @@ export default function AuthenticatedLayout({ header, children }) {
                                     {trendingRecipes.map((recipe) => (
                                         <div key={recipe.id} className="flex items-center space-x-3">
                                             <img
-                                                src={recipe.image}
+                                                // src={recipe.image}
+                                                src={recipe.image ? `/recipes/${recipe.image}` : '/images/default-recipe.jpg'}
                                                 alt={recipe.title}
                                                 className="h-12 w-12 rounded-lg object-cover"
                                                 />
@@ -297,7 +302,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
             </div>
-            <ToastContainer theme="" />
+            <ToastContainer theme={darkMode ? 'dark' : 'light'} />
         </div>
     );
 }

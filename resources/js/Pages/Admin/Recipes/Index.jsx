@@ -2,6 +2,7 @@ import React from 'react';
 import AdminMaster from '@/Layouts/Admin/AdminMaster';
 import { Head, Link } from '@inertiajs/react';
 import { format } from 'date-fns';
+import {toast} from "react-toastify";
 
 const RecipesIndex = ({ recipes }) => {
     return (
@@ -60,6 +61,7 @@ const RecipesIndex = ({ recipes }) => {
                                                         href={route('admin.recipes.destroy', recipe.id)}
                                                         method="delete"
                                                         as="button"
+                                                        onFinish={() => toast.success('Deleted Successfully')}
                                                         className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                                                     >
                                                         Delete

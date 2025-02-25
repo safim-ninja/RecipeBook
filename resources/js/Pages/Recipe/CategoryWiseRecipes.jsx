@@ -20,7 +20,8 @@ const CategoryWiseRecipes = ({recipes, popularTags, category}) => {
                         <Link href={route('recipe.show', recipe.slug)}>
                             <div className="h-56 w-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
                                 <img
-                                    src={recipe.image}
+                                    // src={recipe.image}
+                                    src={recipe.image ? `/recipes/${recipe.image}` : '/images/default-recipe.jpg'}
                                     alt={recipe.title}
                                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                                 />

@@ -17,7 +17,8 @@ export default function Recipe({ recipe }) {
                 {/* Hero Section */}
                 <div className="relative h-96">
                     <img
-                        src={recipe.image}
+                        // src={recipe.image}
+                        src={recipe.image ? `/recipes/${recipe.image}` : '/images/default-recipe.jpg'}
                         alt={recipe.title}
                         className="w-full h-full object-cover"
                     />

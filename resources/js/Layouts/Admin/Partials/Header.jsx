@@ -59,7 +59,7 @@ const Header = ({ setSidebarOpen, sidebarOpen }) => {
                             )}
                         </button>
                         <Link href={route('logout')} method="post" as="button" className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-                            Logoutss
+                            Logout
                         </Link>
                     </div>
                 </div>

@@ -96,7 +96,7 @@ export default function Profile({ auth, myRecipes, myReviews }) {
                                     <div>
                                         <h2 className="text-xl font-medium text-slate-800 dark:text-slate-200">{user.name}</h2>
                                         <p className="text-slate-500 dark:text-slate-400">{user.email}</p>
-                                        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Member since {new Date(user.created_at).toLocaleDateString()}</p>
+                                        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Member since {new Date(user.created_at).toLocaleDateString('en-US', {day: '2-digit', month: 'short', year: 'numeric'})}</p>
                                     </div>
                                 </div>
                                 <div className="flex space-x-4">

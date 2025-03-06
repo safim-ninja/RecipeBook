@@ -25,28 +25,28 @@ export default function Login({ status, canResetPassword }) {
                         <div className="absolute top-0 left-0 w-full h-full grid grid-cols-2 gap-4 p-8">
                             <div className="rounded-xl overflow-hidden">
                                 <img
-                                    src="https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+                                    src="/login-1.jpeg"
                                     alt="Delicious meal"
                                     className="w-full h-full object-cover"
                                 />
                             </div>
                             <div className="rounded-xl overflow-hidden">
                                 <img
-                                    src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe"
+                                    src="/login-2.jpeg"
                                     alt="Fresh salad"
                                     className="w-full h-full object-cover"
                                 />
                             </div>
                             <div className="rounded-xl overflow-hidden">
                                 <img
-                                    src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38"
+                                    src="/login-3.jpeg"
                                     alt="Pizza"
                                     className="w-full h-full object-cover"
                                 />
                             </div>
                             <div className="rounded-xl overflow-hidden">
                                 <img
-                                    src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543"
+                                    src="/login-4.jpeg"
                                     alt="Dessert"
                                     className="w-full h-full object-cover"
                                 />

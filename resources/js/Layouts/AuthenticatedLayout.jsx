@@ -16,7 +16,7 @@ const highlightMatch = (text, query) => {
 };
 
 export default function AuthenticatedLayout({ header, children }) {
-    const { popularTags, trendingRecipes, popularCategories } = usePage().props;
+    const { popularTags, popularCategories } = usePage().props;
     const user = usePage().props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -241,7 +241,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 {/* Right Sidebar */}
                 <div className="fixed right-0 hidden h-full w-64 border-l border-slate-200 bg-white p-4 dark:bg-slate-800 dark:border-slate-700 lg:block">
                     <div className="space-y-6">
-                        {trendingRecipes.length > 0 &&
+                        {/* {trendingRecipes.length > 0 &&
                             <div>
                                 <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Trending Recipes</h3>
                                 <div className="space-y-3">
@@ -266,7 +266,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     ))}
                                 </div>
                             </div>
-                        }
+                        } */}
                         <div>
                             <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Popular Tags</h3>
                             <div className="flex flex-wrap gap-2">

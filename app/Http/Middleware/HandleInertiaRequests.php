@@ -32,7 +32,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $popularTags = Recipe::getPopularTags();
-        $trendingRecipes = Recipe::trendingRecipes();
+        // $trendingRecipes = Recipe::trendingRecipes();
         $popularCategories = Category::withCount('recipes')
             ->orderBy('recipes_count', 'desc')
             ->limit(5)
@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'popularTags' => $popularTags,
-            'trendingRecipes' => $trendingRecipes,
+            // 'trendingRecipes' => $trendingRecipes,
             'popularCategories' => $popularCategories,
         ];
     }

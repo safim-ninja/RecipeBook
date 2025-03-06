@@ -58,13 +58,13 @@ class Recipe extends Model
         return $allTags;
     }
 
-    public static function trendingRecipes()
-    {
-        return self::select('id', 'title', 'image')
-            ->withAvg('reviews', 'rating')
-            ->having('reviews_avg_rating', '>', 0)
-            ->orderBy('reviews_avg_rating', 'desc')
-            ->limit(3)
-            ->get();
-    }
+    // public static function trendingRecipes()
+    // {
+    //     return self::select('id', 'title', 'image')
+    //         ->withAvg('reviews', 'rating')
+    //         ->having('reviews_avg_rating', '>', 0)
+    //         ->orderBy('reviews_avg_rating', 'desc')
+    //         ->limit(3)
+    //         ->get();
+    // }
 }

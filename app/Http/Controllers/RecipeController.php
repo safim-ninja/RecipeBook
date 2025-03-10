@@ -25,13 +25,18 @@ class RecipeController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-        // $request->validate([
-        //     'title' => 'required|string|max:255',
-        //     'description' => 'required|string',
-        //     'tags' => 'required|array',
-        //     'tags.*' => 'string|max:255',
-        // ]);
+        $user = auth()->user();
+        $recipeCount = Recipe::where('user_id', $user->id)->count();
+        
+        // Check if user has reached free limit
+        if ($recipeCount >= 3) {
+            $subscription = $user->subscription;
+            
+            if (!$subscription || $subscription->plan_type === 'free') {
+                return redirect()->back()->with('error', 'You have reached the free recipe limit. Please upgrade to Premium to add more recipes.');
+            }
+        }
+
         if($request->hasFile('image')){
             $imagePath = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(public_path('recipes'), $imagePath);
@@ -50,7 +55,7 @@ class RecipeController extends Controller
             'tags' => json_encode(explode(',', $request->tags)),
             'status' => 0,
             'category_id' => $request->category_id,
-            'user_id' => auth()->user()->id,
+            'user_id' => $user->id,
             'image' => $imagePath,
         ]);
         return redirect()->back()->with('success', 'Recipe created successfully');

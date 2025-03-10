@@ -16,7 +16,7 @@ class RecipeSeeder extends Seeder
         $recipes = [
             [
                 'title' => 'Classic Spaghetti Carbonara',
-                'image' => 'https://images.unsplash.com/photo-1612874742237-6526221588e3',
+                'image' => 'classic-spaghetti-carbonara.jpeg',
                 'description' => 'A traditional Italian pasta dish made with eggs, cheese, pancetta and black pepper.',
                 'time' => '30 minutes',
                 'difficulty' => 'Medium',
@@ -31,7 +31,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Thai Green Curry',
-                'image' => 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd',
+                'image' => 'thai-green-curry.jpeg',
                 'description' => 'A fragrant Thai curry with coconut milk, vegetables and chicken.',
                 'time' => '45 minutes',
                 'difficulty' => 'Medium',
@@ -46,7 +46,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Classic Beef Burger',
-                'image' => 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+                'image' => 'classic-beef-burger.jpeg',
                 'description' => 'Juicy homemade beef burger with all the trimmings.',
                 'time' => '25 minutes',
                 'difficulty' => 'Easy',
@@ -61,7 +61,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Chocolate Lava Cake',
-                'image' => 'https://images.unsplash.com/photo-1563805042-7684c019e1cb',
+                'image' => 'chocolate-lava-cake.jpeg',
                 'description' => 'Decadent chocolate dessert with a gooey center.',
                 'time' => '20 minutes',
                 'difficulty' => 'Medium',
@@ -76,7 +76,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Fresh Summer Salad',
-                'image' => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd',
+                'image' => 'fresh-summer-salad.jpeg',
                 'description' => 'Light and refreshing salad perfect for summer days.',
                 'time' => '15 minutes',
                 'difficulty' => 'Easy',
@@ -91,7 +91,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Chicken Tikka Masala',
-                'image' => 'https://images.unsplash.com/photo-1565557623262-b51c2513a641',
+                'image' => 'chicken-tikka-masala.jpeg',
                 'description' => 'Creamy and spicy Indian curry with tender chicken pieces.',
                 'time' => '60 minutes',
                 'difficulty' => 'Hard',
@@ -106,7 +106,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Classic French Croissants',
-                'image' => 'https://images.unsplash.com/photo-1555507036-ab1f4038808a',
+                'image' => 'classic-french-croissants.jpeg',
                 'description' => 'Buttery and flaky French pastries.',
                 'time' => '3 hours',
                 'difficulty' => 'Hard',
@@ -121,7 +121,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Vegetable Stir Fry',
-                'image' => 'https://images.unsplash.com/photo-1512058564366-18510be2db19',
+                'image' => 'vegetable-stir-fry.jpeg',
                 'description' => 'Quick and healthy vegetable stir fry with soy sauce.',
                 'time' => '20 minutes',
                 'difficulty' => 'Easy',
@@ -136,7 +136,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Homemade Pizza',
-                'image' => 'https://images.unsplash.com/photo-1513104890138-7c749659a591',
+                'image' => 'homemade-pizza.jpeg',
                 'description' => 'Classic Italian pizza with homemade dough and toppings.',
                 'time' => '90 minutes',
                 'difficulty' => 'Medium',
@@ -151,7 +151,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'title' => 'Beef Wellington',
-                'image' => 'https://images.unsplash.com/photo-1624726175512-19b9baf9fbd1',
+                'image' => 'beef-wellington.jpeg',
                 'description' => 'Classic British dish of beef wrapped in pastry.',
                 'time' => '120 minutes',
                 'difficulty' => 'Hard',

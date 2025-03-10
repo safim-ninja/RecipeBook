@@ -47,4 +47,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
+    public function canAddRecipe()
+    {
+        $recipeCount = $this->recipes()->count();
+        $subscription = $this->subscription;
+
+        if (!$subscription || $subscription->plan_type === 'free') {
+            return $recipeCount < 3;
+        }
+
+        return true;
+    }
 }

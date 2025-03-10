@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SubscriptionController;
 
 Route::get('/dashboard', function () {
     return redirect()->route('profile.show');
@@ -19,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/subscription', [SubscriptionController::class, 'index'])->name('subscription.index');
+    Route::get('/subscribe', [SubscriptionController::class, 'create'])->name('subscription.create');
 });
 
 

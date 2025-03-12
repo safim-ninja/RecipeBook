@@ -1,9 +1,32 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+import { router } from '@inertiajs/react';
 
 export default function Profile({ recipes, reviews, user }) {
     const [showNewRecipeForm, setShowNewRecipeForm] = useState(false);
+    const [cart, setCart] = useState([]);
+
+    const addToCart = (recipe) => {
+        setCart(prevCart => {
+            const existingItem = prevCart.find(item => item.recipe_id === recipe.id);
+            if (existingItem) {
+                return prevCart.map(item =>
+                    item.recipe_id === recipe.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            }
+            return [...prevCart, { recipe_id: recipe.id, quantity: 1 }];
+        });
+    };
+
+    const placeOrder = () => {
+        router.post(route('orders.store'), {
+            chef_id: user.id,
+            items: cart,
+        });
+    };
 
     return (
         <AuthenticatedLayout>
@@ -61,6 +84,19 @@ export default function Profile({ recipes, reviews, user }) {
                                                         {recipe.servings} servings
                                                     </div>
                                                 </div>
+                                                {recipe.is_orderable && (
+                                                    <div className="p-4 border-t border-slate-200 dark:border-slate-600">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-lg font-semibold">${recipe.price}</span>
+                                                            <button
+                                                                onClick={() => addToCart(recipe)}
+                                                                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                                                            >
+                                                                Add to Order
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
@@ -82,6 +118,18 @@ export default function Profile({ recipes, reviews, user }) {
                     </div>
                 </div>
             </div>
+
+            {cart.length > 0 && (
+                <div className="fixed bottom-0 right-0 m-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-lg">
+                    <h4 className="text-lg font-semibold mb-2">Order Cart ({cart.length} items)</h4>
+                    <button
+                        onClick={placeOrder}
+                        className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                    >
+                        Place Order
+                    </button>
+                </div>
+            )}
         </AuthenticatedLayout>
     );
 }

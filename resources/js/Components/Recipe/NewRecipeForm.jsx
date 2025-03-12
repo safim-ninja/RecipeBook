@@ -1,5 +1,5 @@
 import { useForm } from '@inertiajs/react';
-
+import Switch from '../Switch';
 export default function NewRecipeForm({ user, onClose }) {
     const { data: recipeData, setData: setRecipeData, post: postRecipe, processing: recipeProcessing, errors: recipeErrors } = useForm({
         title: '',
@@ -13,6 +13,7 @@ export default function NewRecipeForm({ user, onClose }) {
         tags: '',
         status: 'draft',
         category_id: '',
+        is_orderable: false,
         image: null
     });
 
@@ -29,6 +30,7 @@ export default function NewRecipeForm({ user, onClose }) {
             },
         });
     };
+    console.log(recipeData);
 
     return (
         <div className="p-6 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
@@ -167,6 +169,14 @@ export default function NewRecipeForm({ user, onClose }) {
                 </div>
 
                 <div>
+                    {/* <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Is Orderable</label> */}
+                    <Switch
+                        label="Is Orderable"
+                        checked={recipeData.is_orderable}
+                        onChange={e => setRecipeData('is_orderable', !recipeData.is_orderable)}
+                    />
+                </div>
+                {/* <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Status</label>
                     <select
                         value={recipeData.status}
@@ -177,7 +187,7 @@ export default function NewRecipeForm({ user, onClose }) {
                         <option value="published">Published</option>
                     </select>
                     {recipeErrors.status && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{recipeErrors.status}</p>}
-                </div>
+                </div> */}
 
                 <div className="flex justify-end space-x-3">
                     <button

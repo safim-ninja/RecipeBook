@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('status')->default(1)->comment('1: active, 0: inactive');
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('user_id')->constrained('users');
+            $table->boolean('is_orderable')->default(false);
+            $table->decimal('price', 10, 2)->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

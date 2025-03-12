@@ -27,11 +27,11 @@ class RecipeController extends Controller
     {
         $user = auth()->user();
         $recipeCount = Recipe::where('user_id', $user->id)->count();
-        
+
         // Check if user has reached free limit
         if ($recipeCount >= 3) {
             $subscription = $user->subscription;
-            
+
             if (!$subscription || $subscription->plan_type === 'free') {
                 return redirect()->back()->with('error', 'You have reached the free recipe limit. Please upgrade to Premium to add more recipes.');
             }
@@ -56,6 +56,7 @@ class RecipeController extends Controller
             'status' => 0,
             'category_id' => $request->category_id,
             'user_id' => $user->id,
+            'is_orderable' => $request->is_orderable,
             'image' => $imagePath,
         ]);
         return redirect()->back()->with('success', 'Recipe created successfully');
@@ -95,10 +96,17 @@ class RecipeController extends Controller
         }
         $recipe->update([
             'title' => $request->title,
+            'slug' => Str::slug($request->title),
             'description' => $request->description,
+            'time' => $request->time,
+            'difficulty' => $request->difficulty,
+            'servings' => $request->servings,
+            'ingredients' => json_encode(explode(',', $request->ingredients)),
+            'instructions' => json_encode(explode(',', $request->instructions)),
             'tags' => json_encode($request->tags),
             'category_id' => $request->category_id,
             'image' => $image,
+            'is_orderable' => $request->is_orderable,
         ]);
         return redirect()->back()->with('success', 'Recipe updated successfully');
     }

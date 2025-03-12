@@ -17,6 +17,19 @@ class Recipe extends Model
         'deleted_at',
     ];
 
+    protected $fillable = [
+        'id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'price',
+        'is_orderable',
+    ];
+
+    protected $casts = [
+        'is_orderable' => 'boolean',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);

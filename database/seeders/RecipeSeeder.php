@@ -27,6 +27,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'classic-spaghetti-carbonara',
                 'category_id' => 1,
                 'user_id' => 1,
+                'is_orderable' => true,
+                'price' => 10.00,
                 'tags' => json_encode(['Italian', 'Pasta', 'Dinner'])
             ],
             [
@@ -42,6 +44,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'thai-green-curry',
                 'category_id' => 2,
                 'user_id' => 1,
+                'is_orderable' => true,
+                'price' => 15.00,
                 'tags' => json_encode(['Thai', 'Curry', 'Dinner'])
             ],
             [
@@ -57,6 +61,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'classic-beef-burger',
                 'category_id' => 3,
                 'user_id' => 2,
+                'is_orderable' => false,
+                'price' => 0,
                 'tags' => json_encode(['American', 'Burger', 'Dinner'])
             ],
             [
@@ -72,6 +78,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'chocolate-lava-cake',
                 'category_id' => 4,
                 'user_id' => 2,
+                'is_orderable' => false,
+                'price' => 0,
                 'tags' => json_encode(['Dessert', 'Chocolate', 'Dinner'])
             ],
             [
@@ -87,6 +95,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'fresh-summer-salad',
                 'category_id' => 5,
                 'user_id' => 1,
+                'is_orderable' => true,
+                'price' => 12.00,
                 'tags' => json_encode(['Salad', 'Summer', 'Dinner'])
             ],
             [
@@ -102,6 +112,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'chicken-tikka-masala',
                 'category_id' => 2,
                 'user_id' => 2,
+                'is_orderable' => true,
+                'price' => 18.00,
                 'tags' => json_encode(['Indian', 'Chicken', 'Dinner'])
             ],
             [
@@ -117,6 +129,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'classic-french-croissants',
                 'category_id' => 4,
                 'user_id' => 1,
+                'is_orderable' => true,
+                'price' => 24.00,
                 'tags' => json_encode(['French', 'Pastry', 'Breakfast'])
             ],
             [
@@ -132,6 +146,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'vegetable-stir-fry',
                 'category_id' => 5,
                 'user_id' => 2,
+                'is_orderable' => false,
+                'price' => 0,
                 'tags' => json_encode(['Vegetarian', 'Stir Fry', 'Lunch'])
             ],
             [
@@ -147,6 +163,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'homemade-pizza',
                 'category_id' => 1,
                 'user_id' => 1,
+                'is_orderable' => true,
+                'price' => 15.00,
                 'tags' => json_encode(['Italian', 'Pizza', 'Dinner'])
             ],
             [
@@ -162,6 +180,8 @@ class RecipeSeeder extends Seeder
                 'slug' => 'beef-wellington',
                 'category_id' => 3,
                 'user_id' => 2,
+                'is_orderable' => false,
+                'price' => 0,
                 'tags' => json_encode(['British', 'Beef', 'Dinner'])
             ]
         ];

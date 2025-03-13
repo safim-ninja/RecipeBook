@@ -60,7 +60,7 @@ class RecipeSeeder extends Seeder
                 'instructions' => json_encode(['Form patties', 'Grill burgers', 'Add cheese', 'Assemble burger']),
                 'slug' => 'classic-beef-burger',
                 'category_id' => 3,
-                'user_id' => 2,
+                'user_id' => 3,
                 'is_orderable' => false,
                 'price' => 0,
                 'tags' => json_encode(['American', 'Burger', 'Dinner'])
@@ -94,7 +94,7 @@ class RecipeSeeder extends Seeder
                 'instructions' => json_encode(['Wash vegetables', 'Chop ingredients', 'Make dressing', 'Combine and serve']),
                 'slug' => 'fresh-summer-salad',
                 'category_id' => 5,
-                'user_id' => 1,
+                'user_id' => 3,
                 'is_orderable' => true,
                 'price' => 12.00,
                 'tags' => json_encode(['Salad', 'Summer', 'Dinner'])
@@ -128,7 +128,7 @@ class RecipeSeeder extends Seeder
                 'instructions' => json_encode(['Make dough', 'Laminate', 'Shape', 'Bake']),
                 'slug' => 'classic-french-croissants',
                 'category_id' => 4,
-                'user_id' => 1,
+                'user_id' => 4,
                 'is_orderable' => true,
                 'price' => 24.00,
                 'tags' => json_encode(['French', 'Pastry', 'Breakfast'])
@@ -145,7 +145,7 @@ class RecipeSeeder extends Seeder
                 'instructions' => json_encode(['Prep vegetables', 'Heat wok', 'Stir fry', 'Season and serve']),
                 'slug' => 'vegetable-stir-fry',
                 'category_id' => 5,
-                'user_id' => 2,
+                'user_id' => 4,
                 'is_orderable' => false,
                 'price' => 0,
                 'tags' => json_encode(['Vegetarian', 'Stir Fry', 'Lunch'])
@@ -162,7 +162,7 @@ class RecipeSeeder extends Seeder
                 'instructions' => json_encode(['Make dough', 'Prepare sauce', 'Add toppings', 'Bake']),
                 'slug' => 'homemade-pizza',
                 'category_id' => 1,
-                'user_id' => 1,
+                'user_id' => 3,
                 'is_orderable' => true,
                 'price' => 15.00,
                 'tags' => json_encode(['Italian', 'Pizza', 'Dinner'])
@@ -179,7 +179,7 @@ class RecipeSeeder extends Seeder
                 'instructions' => json_encode(['Sear beef', 'Make mushroom duxelles', 'Wrap in pastry', 'Bake']),
                 'slug' => 'beef-wellington',
                 'category_id' => 3,
-                'user_id' => 2,
+                'user_id' => 1,
                 'is_orderable' => false,
                 'price' => 0,
                 'tags' => json_encode(['British', 'Beef', 'Dinner'])

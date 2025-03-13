@@ -23,12 +23,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-        User::create([
-            'name' => 'Safim Md Fahim',
-            'username' => 'safim',
-            'email' => 'safim@gmail.com',
-            'password' => Hash::make('12345678'),
-        ]);
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,

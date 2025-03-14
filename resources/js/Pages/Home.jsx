@@ -1,9 +1,9 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import MasterLayout from '@/Layouts/MasterLayout';
 import { Head, Link } from '@inertiajs/react';
 
 export default function Home({ recipes, popularTags }) {
     return (
-        <AuthenticatedLayout
+        <MasterLayout
             popularTags={popularTags}
             header={
                 <h2 className="text-2xl font-bold leading-tight text-slate-800 dark:text-slate-200 tracking-tight">
@@ -64,6 +64,6 @@ export default function Home({ recipes, popularTags }) {
                     </div>
                 ))}
             </div>
-        </AuthenticatedLayout>
+        </MasterLayout>
     );
 }

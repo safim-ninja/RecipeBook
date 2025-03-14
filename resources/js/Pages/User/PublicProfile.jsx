@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 import { toast } from 'react-toastify';
-export default function Profile({ recipes, reviews, user }) {
+export default function Profile({ recipes, reviews, user, auth }) {
     const [showNewRecipeForm, setShowNewRecipeForm] = useState(false);
     const [cart, setCart] = useState([]);
     const [showCartModal, setShowCartModal] = useState(false);
@@ -24,7 +24,7 @@ export default function Profile({ recipes, reviews, user }) {
         });
     };
     console.log(cart);
-    
+
 
     const placeOrder = () => {
         router.post(route('orders.store'), {
@@ -106,7 +106,7 @@ export default function Profile({ recipes, reviews, user }) {
                                                         {recipe.servings} servings
                                                     </div>
                                                 </div>
-                                                {recipe.is_orderable && (
+                                                {recipe.is_orderable && user.id !== auth.user.id && (
                                                     <div className="pt-4 border-t border-slate-200 dark:border-slate-600">
                                                         <div className="flex items-center justify-between">
                                                             <span className="text-lg text-slate-800 dark:text-slate-200 font-semibold">${recipe.price}</span>

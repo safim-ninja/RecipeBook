@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/subscribe', [SubscriptionController::class, 'create'])->name('subscription.create');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{order_number}', [OrderController::class, 'details'])->name('orders.details');
+    Route::get('/orders/{order_number}/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+    Route::post('/orders/{order_number}/payment', [OrderController::class, 'processPayment'])->name('orders.process-payment');
 });
 
 

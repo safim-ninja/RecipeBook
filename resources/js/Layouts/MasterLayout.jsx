@@ -15,7 +15,7 @@ const highlightMatch = (text, query) => {
     );
 };
 
-export default function AuthenticatedLayout({ header, children }) {
+export default function MasterLayout({ header, children }) {
     const { popularTags, popularCategories } = usePage().props;
     const user = usePage().props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -201,54 +201,30 @@ export default function AuthenticatedLayout({ header, children }) {
                             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
-                            <span>Dashboard</span>
+                            <span>Home</span>
                         </NavLink>
 
-                        <NavLink href={route('profile.show')} active={route().current('profile.show')}
-                            className="flex items-center space-x-2 rounded-lg">
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            <span>Profile</span>
-                        </NavLink>
-
-                        <NavLink href={route('subscription.index')} active={route().current('subscription.index')}
-                            className="flex items-center space-x-2 rounded-lg px-4 py-2 text-slate-700 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-700">
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-                            </svg>
-                            <span>Subscription</span>
-                        </NavLink>
-
-                        <NavLink href="#"
-                            className="flex items-center space-x-2 rounded-lg px-4 py-2 text-slate-700 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-700">
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                            <span>Orders</span>
-                        </NavLink>
-
-                        <NavLink href="#"
-                            className="flex items-center space-x-2 rounded-lg px-4 py-2 text-slate-700 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-700">
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                            <span>Saved Recipes</span>
-                        </NavLink>
-
-                        <NavLink href="#"
-                            className="flex items-center space-x-2 rounded-lg px-4 py-2 text-slate-700 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-700">
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <span>Settings</span>
-                        </NavLink>
+                        <div className="px-4 py-2">
+                            <h3 className="mb-2 text-sm font-semibold text-slate-600 dark:text-slate-400">Categories</h3>
+                            <div className="space-y-1">
+                                {popularCategories.map((category, index) => (
+                                    <Link
+                                        key={index}
+                                        href={route('category.recipes', category.slug)}
+                                        className={`block rounded-lg px-4 py-2 text-sm text-slate-700 hover:bg-orange-50 dark:text-slate-200 dark:hover:bg-slate-700 ${
+                                            route().current('category.recipes', category.slug) ? 'bg-orange-100 dark:bg-slate-700' : ''
+                                        }`}
+                                    >
+                                        {category.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 {/* Main Content */}
-                <div className="flex-1 lg:ml-64">
+                <div className="flex-1 lg:ml-64 lg:mr-64">
                     {header && (
                         <header className="bg-white shadow-sm dark:bg-slate-800">
                             <div className="mx-auto px-4 py-4">
@@ -263,9 +239,9 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
 
                 {/* Right Sidebar */}
-                {/* <div className="fixed right-0 hidden h-full w-64 border-l border-slate-200 bg-white p-4 dark:bg-slate-800 dark:border-slate-700 lg:block">
+                <div className="fixed right-0 hidden h-full w-64 border-l border-slate-200 bg-white p-4 dark:bg-slate-800 dark:border-slate-700 lg:block">
                     <div className="space-y-6">
-                        {trendingRecipes.length > 0 &&
+                        {/* {trendingRecipes.length > 0 &&
                             <div>
                                 <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Trending Recipes</h3>
                                 <div className="space-y-3">
@@ -290,7 +266,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     ))}
                                 </div>
                             </div>
-                        }
+                        } */}
                         <div>
                             <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Popular Tags</h3>
                             <div className="flex flex-wrap gap-2">
@@ -309,8 +285,8 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-4">
                                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">Advertisement</div>
                                 <div id="sidebar-ad" className="w-full h-[250px] bg-slate-200 dark:bg-slate-600 rounded flex items-center justify-center">
-                                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <ins className="adsbygoogle"
+                                    {/* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> */}
+                                    {/* <ins className="adsbygoogle"
                                         style={{ display: 'block' }}
                                         data-ad-client="YOUR-AD-CLIENT-ID"
                                         data-ad-slot="YOUR-AD-SLOT-ID"
@@ -319,12 +295,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                     </ins>
                                     {
                                         (adsbygoogle = window.adsbygoogle || []).push({})
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
             <ToastContainer theme={darkMode ? 'dark' : 'light'} />
         </div>

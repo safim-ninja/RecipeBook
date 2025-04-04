@@ -1,10 +1,10 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import MasterLayout from '@/Layouts/MasterLayout';
 import { Head } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 
 const CategoryWiseRecipes = ({recipes, popularTags, category}) => {
     return (
-        <AuthenticatedLayout
+        <MasterLayout
             popularTags={popularTags}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-200">
@@ -62,7 +62,7 @@ const CategoryWiseRecipes = ({recipes, popularTags, category}) => {
                     </div>
                 ))}
             </div>
-        </AuthenticatedLayout>
+        </MasterLayout>
     );
 };
 

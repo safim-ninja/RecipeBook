@@ -1,5 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import Switch from '../Switch';
+import { toast } from 'react-toastify';
+
 export default function NewRecipeForm({ user, onClose }) {
     const { data: recipeData, setData: setRecipeData, post: postRecipe, processing: recipeProcessing, errors: recipeErrors } = useForm({
         title: '',
@@ -26,6 +28,7 @@ export default function NewRecipeForm({ user, onClose }) {
         e.preventDefault();
         postRecipe(route('recipe.store'), {
             onSuccess: () => {
+                toast.success('Recipe created successfully');
                 onClose();
             },
         });

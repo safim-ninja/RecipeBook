@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use App\Notifications\RecipeApprovalNotification;
+
 class RecipeController extends Controller
 {
     public function index()
@@ -59,6 +61,7 @@ class RecipeController extends Controller
             'is_orderable' => $request->is_orderable,
             'image' => $imagePath,
         ]);
+        $recipe->user->notify(new RecipeApprovalNotification($recipe, 'pending'));
         return redirect()->back()->with('success', 'Recipe created successfully');
     }
 

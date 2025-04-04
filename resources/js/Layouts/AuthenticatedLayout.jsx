@@ -23,6 +23,10 @@ export default function AuthenticatedLayout({ header, children }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
+    const [notifications, setNotifications] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const [showNotifications, setShowNotifications] = useState(false);
+
     const handleSearch = async (value) => {
         if (value.trim() === '') {
             setFilteredRecipes([]);
@@ -64,6 +68,50 @@ export default function AuthenticatedLayout({ header, children }) {
             localStorage.theme = 'light';
         }
     }, [darkMode]);
+
+    const fetchNotifications = async () => {
+        if (!user) return;
+        try {
+            const response = await fetch('/notifications');
+            const data = await response.json();
+            setNotifications(data.notifications);
+            setUnreadCount(data.notifications.filter(n => !n.read_at).length);
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+        }
+    };
+
+    const markAsRead = async (id) => {
+        try {
+            await fetch(`/notifications/${id}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            await fetchNotifications(); // Refresh notifications
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchNotifications();
+        const interval = setInterval(fetchNotifications, 60000);
+        return () => clearInterval(interval);
+    }, [user]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const notificationContainer = document.getElementById('notification-container');
+            if (notificationContainer && !notificationContainer.contains(event.target)) {
+                setShowNotifications(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
@@ -156,11 +204,56 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </svg>
                             </button>
 
-                            <button className="mr-4 p-2 text-slate-600 hover:text-orange-500 dark:text-slate-300">
-                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
-                            </button>
+                            {/* Notifications */}
+                            <div className="relative" id="notification-container">
+                                <button 
+                                    onClick={() => setShowNotifications(!showNotifications)}
+                                    className="mr-4 p-2 text-slate-600 hover:text-orange-500 dark:text-slate-300 relative"
+                                >
+                                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                    </svg>
+                                    {unreadCount > 0 && (
+                                        <span className="absolute top-0 right-0 h-5 w-5 rounded-full bg-red-500 text-xs text-white flex items-center justify-center">
+                                            {unreadCount}
+                                        </span>
+                                    )}
+                                </button>
+
+                                {showNotifications && (
+                                    <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-800 rounded-md shadow-lg overflow-hidden z-50 border border-slate-200 dark:border-slate-700">
+                                        <div className="py-2">
+                                            <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-700">
+                                                <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Notifications</h3>
+                                            </div>
+                                            <div className="max-h-96 overflow-y-auto">
+                                                {notifications.length > 0 ? (
+                                                    notifications.map((notification) => (
+                                                        <div
+                                                            key={notification.id}
+                                                            className={`px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 ${
+                                                                !notification.read_at ? 'bg-orange-50 dark:bg-slate-700/50' : ''
+                                                            }`}
+                                                            onClick={() => markAsRead(notification.id)}
+                                                        >
+                                                            <p className="text-sm text-slate-900 dark:text-white">
+                                                                {notification.data.message}
+                                                            </p>
+                                                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                                                {new Date(notification.created_at).toLocaleDateString()}
+                                                            </p>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="px-4 py-3 text-sm text-slate-500 dark:text-slate-400">
+                                                        No notifications
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
 
                             <Dropdown>
                                 <Dropdown.Trigger>
@@ -261,70 +354,6 @@ export default function AuthenticatedLayout({ header, children }) {
                         {children}
                     </main>
                 </div>
-
-                {/* Right Sidebar */}
-                {/* <div className="fixed right-0 hidden h-full w-64 border-l border-slate-200 bg-white p-4 dark:bg-slate-800 dark:border-slate-700 lg:block">
-                    <div className="space-y-6">
-                        {trendingRecipes.length > 0 &&
-                            <div>
-                                <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Trending Recipes</h3>
-                                <div className="space-y-3">
-                                    {trendingRecipes.map((recipe) => (
-                                        <div key={recipe.id} className="flex items-center space-x-3">
-                                            <img
-                                                // src={recipe.image}
-                                                src={recipe.image ? `/recipes/${recipe.image}` : '/images/default-recipe.jpg'}
-                                                alt={recipe.title}
-                                                className="h-12 w-12 rounded-lg object-cover"
-                                                />
-                                            <div>
-                                                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{recipe.title}</p>
-                                                <div className="flex items-center space-x-1">
-                                                    <span className="text-xs text-yellow-500">★</span>
-                                                    <span className="text-xs text-slate-500 dark:text-slate-400">
-                                                        {Number(recipe.reviews_avg_rating).toFixed(1)}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        }
-                        <div>
-                            <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Popular Tags</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {Object.entries(popularTags).map(([tag, count], index) => (
-                                    <span
-                                        key={index}
-                                        className="rounded-full bg-orange-100 px-3 py-1 text-xs text-orange-800 dark:bg-orange-900 dark:text-orange-200"
-                                    >
-                                        #{tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Sponsored</h3>
-                            <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-4">
-                                <div className="text-xs text-slate-500 dark:text-slate-400 mb-2">Advertisement</div>
-                                <div id="sidebar-ad" className="w-full h-[250px] bg-slate-200 dark:bg-slate-600 rounded flex items-center justify-center">
-                                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <ins className="adsbygoogle"
-                                        style={{ display: 'block' }}
-                                        data-ad-client="YOUR-AD-CLIENT-ID"
-                                        data-ad-slot="YOUR-AD-SLOT-ID"
-                                        data-ad-format="auto"
-                                        data-full-width-responsive="true">
-                                    </ins>
-                                    {
-                                        (adsbygoogle = window.adsbygoogle || []).push({})
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
             </div>
             <ToastContainer theme={darkMode ? 'dark' : 'light'} />
         </div>

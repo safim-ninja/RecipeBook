@@ -1,9 +1,9 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import MasterLayout from '@/Layouts/MasterLayout';
 import { Head } from '@inertiajs/react';
 
 export default function Recipe({ recipe }) {
     return (
-        <AuthenticatedLayout
+        <MasterLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-200">
                     Recipe Details
@@ -108,6 +108,6 @@ export default function Recipe({ recipe }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </MasterLayout>
     );
 }

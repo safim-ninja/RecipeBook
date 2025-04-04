@@ -22,6 +22,10 @@ export default function MasterLayout({ header, children }) {
     const [filteredRecipes, setFilteredRecipes] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+    
+    const [notifications, setNotifications] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const [showNotifications, setShowNotifications] = useState(false);
 
     const handleSearch = async (value) => {
         if (value.trim() === '') {
@@ -64,6 +68,51 @@ export default function MasterLayout({ header, children }) {
             localStorage.theme = 'light';
         }
     }, [darkMode]);
+
+    const fetchNotifications = async () => {
+        if (!user) return;
+        try {
+            const response = await fetch('/notifications');
+            const data = await response.json();
+            setNotifications(data.notifications);
+            setUnreadCount(data.notifications.filter(n => !n.read_at).length);
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+        }
+    };
+
+    const markAsRead = async (id) => {
+        try {
+            await fetch(`/notifications/${id}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            await fetchNotifications(); // Refresh notifications
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchNotifications();
+        // Poll for new notifications every minute
+        const interval = setInterval(fetchNotifications, 60000);
+        return () => clearInterval(interval);
+    }, [user]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const notificationContainer = document.getElementById('notification-container');
+            if (notificationContainer && !notificationContainer.contains(event.target)) {
+                setShowNotifications(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
@@ -156,11 +205,56 @@ export default function MasterLayout({ header, children }) {
                                 </svg>
                             </button>
 
-                            <button className="mr-4 p-2 text-slate-600 hover:text-orange-500 dark:text-slate-300">
-                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
-                            </button>
+                            {/* Notification Bell */}
+                            <div className="relative" id="notification-container">
+                                <button 
+                                    onClick={() => setShowNotifications(!showNotifications)}
+                                    className="mr-4 p-2 text-slate-600 hover:text-orange-500 dark:text-slate-300 relative"
+                                >
+                                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                    </svg>
+                                    {unreadCount > 0 && (
+                                        <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-orange-500 rounded-full">
+                                            {unreadCount}
+                                        </span>
+                                    )}
+                                </button>
+
+                                {showNotifications && (
+                                    <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-800 rounded-md shadow-lg overflow-hidden z-50 border border-slate-200 dark:border-slate-700">
+                                        <div className="py-2">
+                                            <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-700">
+                                                <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Notifications</h3>
+                                            </div>
+                                            <div className="max-h-96 overflow-y-auto">
+                                                {notifications.length > 0 ? (
+                                                    notifications.map((notification) => (
+                                                        <div
+                                                            key={notification.id}
+                                                            className={`px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700 ${
+                                                                !notification.read_at ? 'bg-orange-50 dark:bg-slate-700/50' : ''
+                                                            }`}
+                                                            onClick={() => markAsRead(notification.id)}
+                                                        >
+                                                            <p className="text-sm text-slate-900 dark:text-white">
+                                                                {notification.data.message}
+                                                            </p>
+                                                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                                                {new Date(notification.created_at).toLocaleDateString()}
+                                                            </p>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="px-4 py-3 text-sm text-slate-500 dark:text-slate-400">
+                                                        No notifications
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
 
                             <Dropdown>
                                 <Dropdown.Trigger>

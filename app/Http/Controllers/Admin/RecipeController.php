@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Notifications\RecipeApprovalNotification;
+use App\Models\User;
 
 class RecipeController extends Controller
 {
@@ -98,6 +100,7 @@ class RecipeController extends Controller
         $recipe = Recipe::findOrFail($id);
         $recipe->update(['status' => 1]);
 
+        $recipe->user->notify(new RecipeApprovalNotification($recipe, 'approved'));
         return redirect()->back()->with('success', 'Recipe approved successfully');
     }
 
@@ -109,6 +112,7 @@ class RecipeController extends Controller
         $recipe = Recipe::findOrFail($id);
         $recipe->update(['status' => 2]);
 
+        $recipe->user->notify(new RecipeApprovalNotification($recipe, 'rejected'));
         return redirect()->back()->with('success', 'Recipe rejected successfully');
     }
 }

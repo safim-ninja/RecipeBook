@@ -10,6 +10,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/dashboard', function () {
     return redirect()->route('profile.show');
@@ -28,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/{order_number}', [OrderController::class, 'details'])->name('orders.details');
     Route::get('/orders/{order_number}/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
     Route::post('/orders/{order_number}/payment', [OrderController::class, 'processPayment'])->name('orders.process-payment');
+    
+    // Notification routes
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
 });
 
 
@@ -47,8 +52,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(
 
 Route::post('/recipe', [RecipeController::class, 'store'])->name('recipe.store');
 Route::get('/recipes/search', [RecipeController::class, 'search'])->name('recipes.search');
+Route::get('/recipe/{slug}', [RecipeController::class, 'show'])->name('recipe.show');
 Route::middleware(['auth', 'web'])->group(function () {
-    Route::get('/recipe/{slug}', [RecipeController::class, 'show'])->name('recipe.show');
     Route::get('/recipe/{slug}/edit', [RecipeController::class, 'edit'])->name('recipe.edit');
     Route::put('/recipe/{slug}', [RecipeController::class, 'update'])->name('recipe.update');
     Route::delete('/recipe/{slug}', [RecipeController::class, 'destroy'])->name('recipe.destroy');

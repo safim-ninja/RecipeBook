@@ -106,7 +106,7 @@ export default function Profile({ recipes, reviews, user, auth }) {
                                                         {recipe.servings} servings
                                                     </div>
                                                 </div>
-                                                {recipe.is_orderable && user.id !== auth.user.id && (
+                                                {recipe.is_orderable && auth.user && user.id !== auth.user.id && (
                                                     <div className="pt-4 border-t border-slate-200 dark:border-slate-600">
                                                         <div className="flex items-center justify-between">
                                                             <span className="text-lg text-slate-800 dark:text-slate-200 font-semibold">${recipe.price}</span>

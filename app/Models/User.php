@@ -64,4 +64,50 @@ class User extends Authenticatable
 
         return true;
     }
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')->whereNull('read_at');
+    }
+
+    public function markAllNotificationsAsRead()
+    {
+        $this->notifications()->update(['read_at' => now()]);
+    }
+
+    public function markNotificationAsRead($id)
+    {
+        $notification = $this->notifications()->findOrFail($id);
+        $notification->update(['read_at' => now()]);
+    }
+
+    public function getUnreadNotificationsCount()
+    {
+        return $this->unreadNotifications()->count();
+    }   
+
+    public function getNotifications()
+    {
+        return $this->notifications()->orderBy('created_at', 'desc')->get();
+    }
+
+    public function getUnreadNotifications()
+    {
+        return $this->unreadNotifications()->orderBy('created_at', 'desc')->get();
+    }
 }
